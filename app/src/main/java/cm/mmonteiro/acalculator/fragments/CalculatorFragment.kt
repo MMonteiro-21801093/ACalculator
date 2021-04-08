@@ -82,10 +82,10 @@ class CalculatorFragment : Fragment() {
         ).show()
     }
 
-   // @Optional( R.id.button_00)
+    //@Optional( R.id.button_00)
     @OnClick(
         R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4,
-        R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8,
+        R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,
         R.id.button_ce, R.id.button_backspace, R.id.button_multi, R.id.button_adition,
         R.id.button_subtraction, R.id.button_0, R.id.button_dot
     )
