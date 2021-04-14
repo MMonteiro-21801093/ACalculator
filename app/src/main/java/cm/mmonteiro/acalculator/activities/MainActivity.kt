@@ -23,8 +23,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-        setupDrawerMenu()
+        val configuration: Configuration = resources.configuration
+        if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setSupportActionBar(toolbar)
+            setupDrawerMenu()
+        }
+
         if(!screenRotated(savedInstanceState)){
             NavigationManager.gotCalculatorFragment(supportFragmentManager)
         }
