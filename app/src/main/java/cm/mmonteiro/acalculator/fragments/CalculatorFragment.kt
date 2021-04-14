@@ -18,8 +18,7 @@ import cm.mmonteiro.acalculator.helpers.DataSource
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
 import cm.mmonteiro.acalculator.models.Operation
-import kotlinx.android.synthetic.main.activity_main.list_historic
-import kotlinx.android.synthetic.main.activity_main.text_visor
+
 import kotlinx.android.synthetic.main.fragment_calculator.*
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.text.SimpleDateFormat
@@ -82,7 +81,7 @@ class CalculatorFragment : Fragment() {
         ).show()
     }
 
-    //@Optional( R.id.button_00)
+   // @Optional(R.id.button_00)
     @OnClick(
         R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4,
         R.id.button_5, R.id.button_6, R.id.button_7, R.id.button_8, R.id.button_9,

@@ -13,6 +13,7 @@ import cm.mmonteiro.acalculator.helpers.DataSource
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_calculator.*
 
 class HistoryFragment : Fragment() {
     private lateinit var historyListener: HistoryInterface

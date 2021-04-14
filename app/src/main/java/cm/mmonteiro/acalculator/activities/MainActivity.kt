@@ -1,5 +1,6 @@
 package cm.mmonteiro.acalculator.activities
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 
@@ -40,12 +41,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.drawer_close
         )
 
-        nav_drawer.setNavigationItemSelectedListener(this)
-       // NavigationManager.gotCalculatorFragment(supportFragmentManager)
-        nav_drawer.getMenu().getItem(0).setChecked(true)
-        toolbar.title = getResources().getString(R.string.calculator)
-        drawer.addDrawerListener(toogle)
-        toogle.syncState()
+            nav_drawer.setNavigationItemSelectedListener(this)
+              NavigationManager.gotCalculatorFragment(supportFragmentManager)
+            nav_drawer.getMenu().getItem(0).setChecked(true)
+            toolbar.title = getResources().getString(R.string.calculator)
+            drawer.addDrawerListener(toogle)
+            toogle.syncState()
+
 
     }
 
