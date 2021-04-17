@@ -9,9 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import cm.mmonteiro.acalculator.R
-import cm.mmonteiro.acalculator.helpers.DataSource
+import cm.mmonteiro.acalculator.helpers.ListStorage
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
+import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_calculator.*
 
@@ -35,12 +36,12 @@ class HistoryFragment : Fragment() {
         }
 
        // val operations = activity?.getIntent()?.getParcelableArrayListExtra<Operation>(EXTRA_HISTORY)
-        val db = DataSource
+        val storage = ListStorage.getInstance()
         list_historic.layoutManager = LinearLayoutManager(context as Context)
         list_historic.adapter = HistoryAdapter(
             context as Context,
             R.layout.item_expression,
-            db.getHistory()!!,
+            storage.getAll() as MutableList<Operation>,
             historyListener
         )
 
