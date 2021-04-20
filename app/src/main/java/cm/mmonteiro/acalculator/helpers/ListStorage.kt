@@ -1,9 +1,9 @@
 package cm.mmonteiro.acalculator.helpers
 
+import cm.mmonteiro.acalculator.interfaces.HistoryVMInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.ArrayList
 
 class ListStorage {
     var storage = mutableListOf<Operation>()
@@ -27,9 +27,15 @@ class ListStorage {
             storage.add(operation)
         }
     }
-    fun getAll( ):List<Operation>{
-        return storage
+    suspend fun getAll(historyVMInterface: HistoryVMInterface) {
+        withContext(Dispatchers.IO){
+            Thread.sleep(10000)
+            historyVMInterface.getAllHistory(storage)
+        }
+
     }
+
+
 
     fun deleteItem(id: String) {
        for( item in storage){
@@ -39,4 +45,6 @@ class ListStorage {
            }
        }
     }
+
+
 }

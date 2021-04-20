@@ -13,9 +13,8 @@ import cm.mmonteiro.acalculator.R
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.interfaces.HistoryDisplayChanged
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
-import cm.mmonteiro.acalculator.views.calculator.CalculatorViewModel
+import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.android.synthetic.main.fragment_calculator.*
-import kotlinx.android.synthetic.main.fragment_history.view.*
 
 class HistoryFragment : Fragment(), HistoryDisplayChanged {
     private lateinit var historyListener: HistoryInterface
@@ -34,6 +33,21 @@ class HistoryFragment : Fragment(), HistoryDisplayChanged {
         viewModel.registerListener(this)
         super.onStart()
 
+
+
+            historyListener = object : HistoryInterface {
+                override fun onItemClick(operation: Operation) {
+                    viewModel.onItemClick(operation.expression)
+                }
+
+                override fun longClickdeleteItem(operation: Operation) {
+                    viewModel.longClickdeleteItem(operation.uuid)
+                }
+
+            }
+
+
+
 /*        historyListener = object : HistoryInterface {
             override fun onItemClick(result: String) {
                 showToastMessage(result)
@@ -43,9 +57,13 @@ class HistoryFragment : Fragment(), HistoryDisplayChanged {
 
        // val operations = activity?.getIntent()?.getParcelableArrayListExtra<Operation>(EXTRA_HISTORY)
 
-        list_historic.layoutManager = LinearLayoutManager(context as Context)
-        viewModel.historyAdapter(context as Context)
-    //    list_historic.adapter = viewModel.historyAdapter(context as Context)
+      list_historic.layoutManager = LinearLayoutManager(context as Context)
+
+      list_historic.adapter = HistoryAdapter(
+          context as Context,
+          R.layout.item_expression,
+          viewModel.historyGetAll() as MutableList<Operation>,
+          historyListener)
 
     }
     private fun showToastMessage(value: String) {
@@ -58,6 +76,8 @@ class HistoryFragment : Fragment(), HistoryDisplayChanged {
     override fun onAdapterChanged(value: HistoryAdapter?) {
         value.let{ list_historic.adapter = it}
     }
+
+
     override fun onDisplayChanged(value: String) {
         showToastMessage(value)
     }

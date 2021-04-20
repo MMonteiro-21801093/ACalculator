@@ -1,8 +1,8 @@
 package cm.mmonteiro.acalculator.interfaces
 
-import android.view.View
+import cm.mmonteiro.acalculator.models.Operation
 
 interface HistoryInterface {
-    fun onItemClick(result: String)
-    fun longClickdeleteItem(result:String)
+    fun onItemClick(result: Operation)
+    fun longClickdeleteItem(result: Operation)
 }
