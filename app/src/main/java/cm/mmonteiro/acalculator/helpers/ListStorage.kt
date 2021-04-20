@@ -30,4 +30,13 @@ class ListStorage {
     fun getAll( ):List<Operation>{
         return storage
     }
+
+    fun deleteItem(id: String) {
+       for( item in storage){
+           if(item.uuid== id){
+               storage.remove(item)
+               break
+           }
+       }
+    }
 }

@@ -3,7 +3,7 @@ package cm.mmonteiro.acalculator.helpers
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import cm.mmonteiro.acalculator.views.calculator.CalculatorFragment
-import cm.mmonteiro.acalculator.fragments.HistoryFragment
+import cm.mmonteiro.acalculator.views.history.HistoryFragment
 import cm.mmonteiro.acalculator.R
 
 

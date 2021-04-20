@@ -28,10 +28,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CalculatorFragment : Fragment(), OnDisplayChanged {
-    private val VISOR_KEY = "visor"
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var viewModel: CalculatorViewModel
-    lateinit  var adapter : HistoryAdapter
+
     private lateinit var historyListener: HistoryInterface
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,31 +51,24 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
         val configuration: Configuration = resources.configuration
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            historyListener = object : HistoryInterface {
-                override fun onItemClick(result: String) {
-                    Toast.makeText(
-                        activity as Context,
-                        "$result",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
 
-            }
-            val storage = ListStorage.getInstance()
 
-            adapter = HistoryAdapter(
-                activity as Context,
-                R.layout.item_expression,
-                storage.getAll() as MutableList<Operation>,
-                historyListener
-            )
-            list_historic.layoutManager = LinearLayoutManager(activity as Context)
-            list_historic.adapter =   adapter
+
+
+          list_historic.layoutManager = LinearLayoutManager(activity as Context)
+           viewModel.historyAdapter(activity as Context)
+            //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)
 
 
         }
     }
-
+    private fun showToastMessage(value: String) {
+        Toast.makeText(
+            context as Context,
+            "$value",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
     private fun formatToastDate(symbol: String) {
         val date = Calendar.getInstance().time
         var dateTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
@@ -121,7 +113,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
             val configuration: Configuration = resources.configuration
             if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                adapter.notifyDataSetChanged()
+                viewModel.updateAdapter()
             }else{
                 text_last_calc.text = viewModel.getLastOperation()
             }
@@ -133,6 +125,14 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
     override fun onDisplayChanged(value: String?) {
        value.let{text_visor.text = it}
+    }
+
+    override fun onToastChanged(value: String) {
+        showToastMessage(value)
+    }
+
+    override fun onAdapterChanged(value: HistoryAdapter?) {
+        value.let{ list_historic.adapter = it}
     }
 
     override fun onDestroy() {
