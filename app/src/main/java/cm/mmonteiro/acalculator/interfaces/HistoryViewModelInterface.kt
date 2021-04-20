@@ -2,6 +2,6 @@ package cm.mmonteiro.acalculator.interfaces
 
 import cm.mmonteiro.acalculator.models.Operation
 
-interface HistoryVMInterface {
+interface HistoryViewModelInterface {
     fun getAllHistory(values:List<Operation>)
 }

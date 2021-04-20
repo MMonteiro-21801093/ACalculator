@@ -53,8 +53,6 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
 
-
-
           list_historic.layoutManager = LinearLayoutManager(activity as Context)
            viewModel.historyAdapter(activity as Context)
             //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)

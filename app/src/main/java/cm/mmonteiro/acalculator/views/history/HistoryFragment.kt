@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_calculator.*
 class HistoryFragment : Fragment(), HistoryDisplayChanged {
     private lateinit var historyListener: HistoryInterface
     private lateinit var viewModel: HistoryViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,12 +59,8 @@ class HistoryFragment : Fragment(), HistoryDisplayChanged {
        // val operations = activity?.getIntent()?.getParcelableArrayListExtra<Operation>(EXTRA_HISTORY)
 
       list_historic.layoutManager = LinearLayoutManager(context as Context)
+       viewModel.historyGetAll()
 
-      list_historic.adapter = HistoryAdapter(
-          context as Context,
-          R.layout.item_expression,
-          viewModel.historyGetAll() as MutableList<Operation>,
-          historyListener)
 
     }
     private fun showToastMessage(value: String) {
@@ -75,6 +72,14 @@ class HistoryFragment : Fragment(), HistoryDisplayChanged {
     }
     override fun onAdapterChanged(value: HistoryAdapter?) {
         value.let{ list_historic.adapter = it}
+    }
+
+    override fun setHistoryList(values:List<Operation>) {
+        list_historic.adapter = HistoryAdapter(
+            context as Context,
+            R.layout.item_expression,
+            values as MutableList<Operation>,
+            historyListener)
     }
 
 

@@ -51,23 +51,23 @@ class CalculatorViewModel : ViewModel() {
 
     fun historyAdapter(context: Context)  {
         historyListener = object : HistoryInterface {
-            override fun onItemClick(result: Operation) {
-                listener?.onToastChanged(result)
+            override fun onItemClick(operation: Operation) {
+                listener?.onToastChanged(operation.expression)
             }
 
-            override fun longClickdeleteItem(id: Operation) {
-                storage.deleteItem(id)
+            override fun longClickdeleteItem(operation: Operation) {
+                storage.deleteItem(operation.uuid)
                 adapter?.notifyDataSetChanged()
                 notifyOnAdapterChanged()
             }
 
         }
-        adapter = HistoryAdapter(
+ /*       adapter = HistoryAdapter(
             context,
             R.layout.item_expression,
             storage.getAll(historyVMInterface) as MutableList<Operation>,
             historyListener
-        )
+        )*/
         notifyOnAdapterChanged()
     }
 

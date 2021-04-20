@@ -1,6 +1,6 @@
 package cm.mmonteiro.acalculator.helpers
 
-import cm.mmonteiro.acalculator.interfaces.HistoryVMInterface
+import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,14 +23,14 @@ class ListStorage {
  }
    suspend fun insert(operation:Operation){
         withContext(Dispatchers.IO){
-            Thread.sleep(30000)
+            Thread.sleep(10000)
             storage.add(operation)
         }
     }
-    suspend fun getAll(historyVMInterface: HistoryVMInterface) {
-        withContext(Dispatchers.IO){
-            Thread.sleep(10000)
-            historyVMInterface.getAllHistory(storage)
+    suspend fun getAll(historyViewModelInterface: HistoryViewModelInterface) {
+        withContext(Dispatchers.Main){
+            Thread.sleep(15000)
+            historyViewModelInterface.getAllHistory(storage)
         }
 
     }
