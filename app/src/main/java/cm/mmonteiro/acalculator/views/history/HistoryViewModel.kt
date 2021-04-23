@@ -1,9 +1,8 @@
 package cm.mmonteiro.acalculator.views.history
 
 import androidx.lifecycle.ViewModel
-import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.helpers.ListStorage
-import cm.mmonteiro.acalculator.interfaces.HistoryDisplayChanged
+import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.coroutines.CoroutineScope
@@ -12,11 +11,9 @@ import kotlinx.coroutines.launch
 
 
 class HistoryViewModel : ViewModel() {
-
-
      private val storage = ListStorage.getInstance()
-     var adapter : HistoryAdapter? = null
-     private var listener: HistoryDisplayChanged? = null
+    // var adapter : HistoryAdapter? = null
+     private var listener: CalculatorInterface? = null
      private lateinit var historyViewModelInterface: HistoryViewModelInterface
 
 
@@ -24,10 +21,10 @@ class HistoryViewModel : ViewModel() {
         listener = null
     }
     fun registerListener(
-        listener: HistoryDisplayChanged,
+        listener: CalculatorInterface,
     ){
         this.listener = listener
-        listener?.onAdapterChanged(adapter)
+       // listener?.onAdapterChanged(adapter)
 
         historyViewModelInterface = object : HistoryViewModelInterface {
             override fun getAllHistory(values: List<Operation>) {
@@ -38,7 +35,7 @@ class HistoryViewModel : ViewModel() {
     }
 
     private fun notifyOnDisplayChanged(){
-        listener?.onAdapterChanged(adapter)
+        listener?.onAdapterChanged()
     }
 
     fun onItemClick(result: String) {
@@ -47,7 +44,6 @@ class HistoryViewModel : ViewModel() {
 
     fun longClickdeleteItem(id: String) {
         storage.deleteItem(id)
-        adapter?.notifyDataSetChanged()
         notifyOnDisplayChanged()
     }
 

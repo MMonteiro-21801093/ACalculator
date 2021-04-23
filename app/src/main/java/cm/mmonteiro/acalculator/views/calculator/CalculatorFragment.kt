@@ -30,7 +30,7 @@ import java.util.*
 class CalculatorFragment : Fragment(), OnDisplayChanged {
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var viewModel: CalculatorViewModel
-
+    private lateinit var adapter : HistoryAdapter
     private lateinit var historyListener: HistoryInterface
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +49,23 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         super.onStart()
 
 
+        historyListener = object : HistoryInterface {
+            override fun onItemClick(operation: Operation) {
+                viewModel.onItemClick(operation.expression)
+            }
+
+            override fun longClickdeleteItem(operation: Operation) {
+                viewModel.longClickdeleteItem(operation.uuid)
+            }
+
+        }
+
         val configuration: Configuration = resources.configuration
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
 
           list_historic.layoutManager = LinearLayoutManager(activity as Context)
-           viewModel.historyAdapter(activity as Context)
+          viewModel.historyGetAll()
             //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)
 
 
@@ -129,15 +140,22 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         showToastMessage(value)
     }
 
-    override fun onAdapterChanged(value: HistoryAdapter?) {
-        value.let{ list_historic.adapter = it}
+    override fun onAdapterChanged() {
+        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
         viewModel.unregisterListener()
         super.onDestroy()
     }
-
+    override fun setHistoryList(values:List<Operation>) {
+        adapter =  HistoryAdapter(
+            context as Context,
+            R.layout.item_expression,
+            values as MutableList<Operation>,
+            historyListener)
+        list_historic.adapter = adapter
+    }
 /*    fun onclickHistory(view: View) {
         val bundle = Bundle()
         bundle.putParcelableArrayList(EXTRA_HISTORY,ArrayList(operations))

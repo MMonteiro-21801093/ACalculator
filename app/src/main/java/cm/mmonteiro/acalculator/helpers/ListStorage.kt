@@ -23,13 +23,13 @@ class ListStorage {
  }
    suspend fun insert(operation:Operation){
         withContext(Dispatchers.IO){
-            Thread.sleep(10000)
+            Thread.sleep(5000)
             storage.add(operation)
         }
     }
     suspend fun getAll(historyViewModelInterface: HistoryViewModelInterface) {
         withContext(Dispatchers.Main){
-            Thread.sleep(15000)
+            Thread.sleep(5000)
             historyViewModelInterface.getAllHistory(storage)
         }
 

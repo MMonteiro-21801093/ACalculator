@@ -11,15 +11,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import cm.mmonteiro.acalculator.R
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
-import cm.mmonteiro.acalculator.interfaces.HistoryDisplayChanged
+import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.android.synthetic.main.fragment_calculator.*
 
-class HistoryFragment : Fragment(), HistoryDisplayChanged {
+class HistoryFragment : Fragment(), CalculatorInterface {
     private lateinit var historyListener: HistoryInterface
     private lateinit var viewModel: HistoryViewModel
-
+    private lateinit var adapter : HistoryAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,18 +70,18 @@ class HistoryFragment : Fragment(), HistoryDisplayChanged {
             Toast.LENGTH_SHORT
         ).show()
     }
-    override fun onAdapterChanged(value: HistoryAdapter?) {
-        value.let{ list_historic.adapter = it}
+   override fun onAdapterChanged( ) {
+       adapter.notifyDataSetChanged()
     }
 
     override fun setHistoryList(values:List<Operation>) {
-        list_historic.adapter = HistoryAdapter(
+        adapter =  HistoryAdapter(
             context as Context,
             R.layout.item_expression,
             values as MutableList<Operation>,
             historyListener)
+        list_historic.adapter = adapter
     }
-
 
     override fun onDisplayChanged(value: String) {
         showToastMessage(value)

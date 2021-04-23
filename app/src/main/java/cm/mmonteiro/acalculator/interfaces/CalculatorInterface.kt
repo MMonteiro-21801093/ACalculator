@@ -4,8 +4,8 @@ import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.models.Operation
 
 
-interface HistoryDisplayChanged {
+interface CalculatorInterface {
     fun onDisplayChanged(value: String)
-    fun onAdapterChanged(value: HistoryAdapter?)
+    fun onAdapterChanged()
     fun setHistoryList(values:List<Operation>)
 }

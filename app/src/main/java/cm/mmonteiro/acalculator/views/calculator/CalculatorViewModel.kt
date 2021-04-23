@@ -6,8 +6,12 @@ import cm.mmonteiro.acalculator.R
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.helpers.ListStorage
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
+import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
 import cm.mmonteiro.acalculator.models.Operation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CalculatorViewModel : ViewModel() {
 
@@ -15,11 +19,9 @@ class CalculatorViewModel : ViewModel() {
     var display: String = ""
     private var lastOperaton: String = ""
     private var listener: OnDisplayChanged? = null
-
-
-    private lateinit var historyListener: HistoryInterface
+    //var adapter : HistoryAdapter? = null
     private val storage = ListStorage.getInstance()
-    var adapter : HistoryAdapter? = null
+    private lateinit var historyViewModelInterface: HistoryViewModelInterface
 
 
     fun onclickSimbol(symbol: String)  {
@@ -42,43 +44,35 @@ class CalculatorViewModel : ViewModel() {
     fun registerListener(listener: OnDisplayChanged){
         this.listener = listener
         listener?.onDisplayChanged(display)
+        historyViewModelInterface = object : HistoryViewModelInterface {
+            override fun getAllHistory(values: List<Operation>) {
+                listener.setHistoryList(values)
+            }
+
+        }
     }
 
     private fun notifyOnDisplayChanged(){
         listener?.onDisplayChanged(display)
     }
 
-
-    fun historyAdapter(context: Context)  {
-        historyListener = object : HistoryInterface {
-            override fun onItemClick(operation: Operation) {
-                listener?.onToastChanged(operation.expression)
-            }
-
-            override fun longClickdeleteItem(operation: Operation) {
-                storage.deleteItem(operation.uuid)
-                adapter?.notifyDataSetChanged()
-                notifyOnAdapterChanged()
-            }
-
-        }
- /*       adapter = HistoryAdapter(
-            context,
-            R.layout.item_expression,
-            storage.getAll(historyVMInterface) as MutableList<Operation>,
-            historyListener
-        )*/
-        notifyOnAdapterChanged()
-    }
-
-    private fun notifyOnAdapterChanged() {
-        listener?.onAdapterChanged(adapter)
-    }
-
     fun updateAdapter() {
-            adapter?.notifyDataSetChanged()
-            notifyOnAdapterChanged()
+        Thread.sleep(5000)
+        listener?.onAdapterChanged()
     }
 
+    fun onItemClick(result: String) {
+        listener?.onToastChanged(result)
+    }
 
+    fun longClickdeleteItem(id: String) {
+        storage.deleteItem(id)
+        listener?.onAdapterChanged()
+    }
+    fun historyGetAll()  {
+        CoroutineScope(Dispatchers.Main).launch{
+            storage.getAll(historyViewModelInterface)
+        }
+
+    }
 }
