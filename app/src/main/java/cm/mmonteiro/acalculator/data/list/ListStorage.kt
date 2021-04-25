@@ -1,4 +1,4 @@
-package cm.mmonteiro.acalculator.helpers
+package cm.mmonteiro.acalculator.data.list
 
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation
@@ -12,9 +12,9 @@ class ListStorage {
  companion object{
      private var instance: ListStorage? = null
 
-     fun getInstance():ListStorage{
+     fun getInstance(): ListStorage {
          synchronized(this){
-             if(instance== null){
+             if(instance == null){
                  instance = ListStorage()
              }
              return instance as ListStorage

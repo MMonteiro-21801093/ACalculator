@@ -1,7 +1,7 @@
 package cm.mmonteiro.acalculator.views.history
 
 import androidx.lifecycle.ViewModel
-import cm.mmonteiro.acalculator.helpers.ListStorage
+import cm.mmonteiro.acalculator.data.list.ListStorage
 import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation

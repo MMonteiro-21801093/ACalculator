@@ -16,14 +16,15 @@ import butterknife.OnClick
 import butterknife.Optional
 import cm.mmonteiro.acalculator.R
 import cm.mmonteiro.acalculator.activities.MainActivity
-import cm.mmonteiro.acalculator.helpers.ListStorage
 import cm.mmonteiro.acalculator.adapters.HistoryAdapter
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
 import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
 import cm.mmonteiro.acalculator.models.Operation
 
 import kotlinx.android.synthetic.main.fragment_calculator.*
-import kotlinx.android.synthetic.main.fragment_calculator.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,7 +45,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
        return view
     }
 
-    override fun onStart() {
+    override  fun onStart() {
         viewModel.registerListener(this)
         super.onStart()
 
@@ -55,7 +56,10 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
             }
 
             override fun longClickdeleteItem(operation: Operation) {
-                viewModel.longClickdeleteItem(operation.uuid)
+
+                    viewModel.longClickdeleteItem(operation.uuid)
+
+
             }
 
         }
@@ -65,7 +69,10 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
 
           list_historic.layoutManager = LinearLayoutManager(activity as Context)
-          viewModel.historyGetAll()
+            CoroutineScope(Dispatchers.Main).launch{
+                viewModel.historyGetAll()
+            }
+
             //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)
 
 

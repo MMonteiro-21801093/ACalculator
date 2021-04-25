@@ -1,20 +1,17 @@
 package cm.mmonteiro.acalculator.views.calculator
 
-import android.content.Context
-import cm.mmonteiro.acalculator.R
-import cm.mmonteiro.acalculator.adapters.HistoryAdapter
-import cm.mmonteiro.acalculator.helpers.ListStorage
-import cm.mmonteiro.acalculator.interfaces.HistoryInterface
+import cm.mmonteiro.acalculator.data.room.dao.OperationDao
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
 
-class CalculatorLogic {
+class CalculatorLogic(private val storage: OperationDao) {
 
-    private val storage = ListStorage.getInstance()
+   // private val storage = ListStorage.getInstance()
     fun insertSymbol(display: String, symbol: String): String {
+
         when (symbol) {
             "CE" -> return ""
             "<" -> return display.substring(0, display.length - 1)
@@ -38,4 +35,13 @@ class CalculatorLogic {
         return result.evaluate()
     }
 
+    suspend fun historyGetAll():List<Operation> {
+           return storage.getAll()
+    }
+
+    fun delete(id: String) {
+        CoroutineScope(Dispatchers.Main).launch{
+            storage.delete(id)
+        }
+    }
 }

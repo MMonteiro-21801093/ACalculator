@@ -1,11 +1,9 @@
 package cm.mmonteiro.acalculator.views.calculator
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import cm.mmonteiro.acalculator.R
-import cm.mmonteiro.acalculator.adapters.HistoryAdapter
-import cm.mmonteiro.acalculator.helpers.ListStorage
-import cm.mmonteiro.acalculator.interfaces.HistoryInterface
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import cm.mmonteiro.acalculator.data.list.ListStorage
+import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
 import cm.mmonteiro.acalculator.models.Operation
@@ -13,14 +11,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CalculatorViewModel : ViewModel() {
+class CalculatorViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val calculatorLogic = CalculatorLogic()
+    private val storage = CalculatorDatabase.getInstance(application).operationDao()
+    private val calculatorLogic = CalculatorLogic(storage)
     var display: String = ""
     private var lastOperaton: String = ""
     private var listener: OnDisplayChanged? = null
-    //var adapter : HistoryAdapter? = null
-    private val storage = ListStorage.getInstance()
+
+    //private val storage = ListStorage.getInstance()
     private lateinit var historyViewModelInterface: HistoryViewModelInterface
 
 
@@ -65,14 +64,12 @@ class CalculatorViewModel : ViewModel() {
         listener?.onToastChanged(result)
     }
 
-    fun longClickdeleteItem(id: String) {
-        storage.deleteItem(id)
+      fun longClickdeleteItem(id: String) {
+        calculatorLogic.delete(id)
         listener?.onAdapterChanged()
     }
-    fun historyGetAll()  {
-        CoroutineScope(Dispatchers.Main).launch{
-            storage.getAll(historyViewModelInterface)
-        }
-
+    suspend  fun historyGetAll()  {
+        listener?.setHistoryList(calculatorLogic.historyGetAll())
     }
+
 }

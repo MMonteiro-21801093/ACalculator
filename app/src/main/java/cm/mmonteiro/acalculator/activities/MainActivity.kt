@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
 
             nav_drawer.setNavigationItemSelectedListener(this)
-              NavigationManager.gotCalculatorFragment(supportFragmentManager)
+            NavigationManager.gotCalculatorFragment(supportFragmentManager)
             nav_drawer.getMenu().getItem(0).setChecked(true)
             toolbar.title = getResources().getString(R.string.calculator)
             drawer.addDrawerListener(toogle)
