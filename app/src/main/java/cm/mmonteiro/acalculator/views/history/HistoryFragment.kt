@@ -15,6 +15,9 @@ import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.android.synthetic.main.fragment_calculator.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment(), CalculatorInterface {
     private lateinit var historyListener: HistoryInterface
@@ -59,7 +62,9 @@ class HistoryFragment : Fragment(), CalculatorInterface {
        // val operations = activity?.getIntent()?.getParcelableArrayListExtra<Operation>(EXTRA_HISTORY)
 
       list_historic.layoutManager = LinearLayoutManager(context as Context)
-       viewModel.historyGetAll()
+        CoroutineScope(Dispatchers.Main).launch{
+            viewModel.historyGetAll()
+        }
 
 
     }

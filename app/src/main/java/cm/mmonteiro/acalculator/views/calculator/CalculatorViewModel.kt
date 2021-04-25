@@ -65,8 +65,12 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
     }
 
       fun longClickdeleteItem(id: String) {
-        calculatorLogic.delete(id)
-        listener?.onAdapterChanged()
+
+              calculatorLogic.delete(id)
+             listener?.onAdapterChanged()
+
+
+      //
     }
     suspend  fun historyGetAll()  {
         listener?.setHistoryList(calculatorLogic.historyGetAll())
