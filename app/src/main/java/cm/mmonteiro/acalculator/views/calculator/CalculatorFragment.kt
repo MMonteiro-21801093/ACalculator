@@ -69,9 +69,9 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
 
           list_historic.layoutManager = LinearLayoutManager(activity as Context)
-            CoroutineScope(Dispatchers.Main).launch{
+
                 viewModel.historyGetAll()
-            }
+
 
             //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)
 

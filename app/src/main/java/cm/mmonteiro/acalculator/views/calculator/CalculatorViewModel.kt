@@ -2,7 +2,6 @@ package cm.mmonteiro.acalculator.views.calculator
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import cm.mmonteiro.acalculator.data.list.ListStorage
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
@@ -45,7 +44,9 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
         listener?.onDisplayChanged(display)
         historyViewModelInterface = object : HistoryViewModelInterface {
             override fun getAllHistory(values: List<Operation>) {
-                listener.setHistoryList(values)
+                CoroutineScope(Dispatchers.Main).launch{
+                    listener.setHistoryList(values)
+                }
             }
 
         }
@@ -69,11 +70,12 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
               calculatorLogic.delete(id)
              listener?.onAdapterChanged()
 
-
-      //
     }
-    suspend  fun historyGetAll()  {
-        listener?.setHistoryList(calculatorLogic.historyGetAll())
+       fun historyGetAll()  {
+           CoroutineScope(Dispatchers.IO).launch{
+               calculatorLogic.historyGetAll(historyViewModelInterface)
+           }
+
     }
 
 }

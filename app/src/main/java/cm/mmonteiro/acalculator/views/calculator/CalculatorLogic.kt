@@ -1,10 +1,12 @@
 package cm.mmonteiro.acalculator.views.calculator
 
 import cm.mmonteiro.acalculator.data.room.dao.OperationDao
+import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class CalculatorLogic(private val storage: OperationDao) {
@@ -35,8 +37,11 @@ class CalculatorLogic(private val storage: OperationDao) {
         return result.evaluate()
     }
 
-    suspend fun historyGetAll():List<Operation> {
-           return storage.getAll()
+    suspend fun historyGetAll(historyViewModelInterface: HistoryViewModelInterface) {
+        withContext(Dispatchers.IO){
+            historyViewModelInterface.getAllHistory(storage.getAll())
+        }
+
     }
 
     fun delete(id: String) {

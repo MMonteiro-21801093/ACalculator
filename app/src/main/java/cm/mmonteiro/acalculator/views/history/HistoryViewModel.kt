@@ -2,8 +2,6 @@ package cm.mmonteiro.acalculator.views.history
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import cm.mmonteiro.acalculator.data.list.ListStorage
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
@@ -19,7 +17,7 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
     private val calculatorLogic = CalculatorLogic(storage)
      private var listener: CalculatorInterface? = null
-    // private lateinit var historyViewModelInterface: HistoryViewModelInterface
+    private lateinit var historyViewModelInterface: HistoryViewModelInterface
 
 
     fun unregisterListener() {
@@ -31,12 +29,15 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         this.listener = listener
        // listener?.onAdapterChanged(adapter)
 
-     /*   historyViewModelInterface = object : HistoryViewModelInterface {
+        historyViewModelInterface = object : HistoryViewModelInterface {
             override fun getAllHistory(values: List<Operation>) {
-                listener.setHistoryList(values)
+                CoroutineScope(Dispatchers.Main).launch{
+                    listener.setHistoryList(values)
+                }
+
             }
 
-        }*/
+        }
     }
 
     private fun notifyOnDisplayChanged(){
@@ -52,10 +53,14 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         notifyOnDisplayChanged()
     }
 
-    fun historyGetAll()  {
-        CoroutineScope(Dispatchers.Main).launch{
-            listener?.setHistoryList(calculatorLogic.historyGetAll())
-        }
+     suspend fun historyGetAll()  {
+
+      calculatorLogic.historyGetAll(historyViewModelInterface)
+
+
+
+           // listener?.setHistoryList()
+
 
     }
 
