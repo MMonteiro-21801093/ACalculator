@@ -1,0 +1,40 @@
+package cm.mmonteiro.acalculator.activities.login
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.ViewModelProviders
+import butterknife.ButterKnife
+import butterknife.OnClick
+import cm.mmonteiro.acalculator.R
+import cm.mmonteiro.acalculator.activities.register.RegisterActivity
+import kotlinx.android.synthetic.main.activity_log_in.*
+
+
+class LogInActivity : AppCompatActivity() {
+    private lateinit var viewModel: LoginViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_log_in)
+        ButterKnife.bind(this)
+        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+    @OnClick(R.id.button_login,R.id.text_new_user)
+    fun onclickObject(view: View) {
+        val symbol = view.tag.toString()
+        if(symbol=="logIn"){
+            viewModel.logIn("cm@ulusofona.pt","cm")
+        }
+        if(symbol=="register"){
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}

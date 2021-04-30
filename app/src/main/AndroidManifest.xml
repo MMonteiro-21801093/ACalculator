@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cm.mmonteiro.acalculator">
+
+
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ACalculator">
+        <activity android:name=".activities.register.RegisterActivity"></activity>
+        <activity android:name=".activities.MainActivity"></activity>
 
-        <activity android:name=".activities.MainActivity">
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+
+
+        <activity android:name=".activities.login.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
