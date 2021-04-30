@@ -62,9 +62,10 @@ class HistoryFragment : Fragment(), CalculatorInterface {
        // val operations = activity?.getIntent()?.getParcelableArrayListExtra<Operation>(EXTRA_HISTORY)
 
       list_historic.layoutManager = LinearLayoutManager(context as Context)
-        CoroutineScope(Dispatchers.IO).launch{
+
+
             viewModel.historyGetAll()
-        }
+
 
 
 

@@ -57,8 +57,8 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun updateAdapter() {
-        Thread.sleep(5000)
-        listener?.onAdapterChanged()
+        Thread.sleep(1000)
+        historyGetAll()
     }
 
     fun onItemClick(result: String) {
@@ -66,11 +66,12 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
     }
 
       fun longClickdeleteItem(id: String) {
+          CoroutineScope(Dispatchers.IO).launch{
+              calculatorLogic.delete(id,historyViewModelInterface)
+          }
 
-              calculatorLogic.delete(id)
-             listener?.onAdapterChanged()
 
-    }
+      }
        fun historyGetAll()  {
            CoroutineScope(Dispatchers.IO).launch{
                calculatorLogic.historyGetAll(historyViewModelInterface)

@@ -49,19 +49,15 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun longClickdeleteItem(id: String) {
-        calculatorLogic.delete(id)
-        notifyOnDisplayChanged()
+        CoroutineScope(Dispatchers.IO).launch{
+        calculatorLogic.delete(id,historyViewModelInterface)
+        }
     }
 
-     suspend fun historyGetAll()  {
-
-      calculatorLogic.historyGetAll(historyViewModelInterface)
-
-
-
-           // listener?.setHistoryList()
-
-
+       fun historyGetAll()  {
+           CoroutineScope(Dispatchers.IO).launch{
+               calculatorLogic.historyGetAll(historyViewModelInterface)
+           }
     }
 
 

@@ -44,9 +44,10 @@ class CalculatorLogic(private val storage: OperationDao) {
 
     }
 
-    fun delete(id: String) {
-        CoroutineScope(Dispatchers.Main).launch{
+    suspend fun delete(id: String,historyViewModelInterface: HistoryViewModelInterface) {
+          withContext(Dispatchers.IO){
             storage.delete(id)
+              historyViewModelInterface.getAllHistory(storage.getAll())
         }
     }
 }
