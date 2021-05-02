@@ -1,10 +1,10 @@
-package cm.mmonteiro.acalculator.remote.responses
+package cm.mmonteiro.acalculator.helpers
 
-import cm.mmonteiro.acalculator.helpers.Constants
+import cm.mmonteiro.acalculator.data.list.ListStorage
 
-class LoginResponse(val email:String,val token:String){
-    var USER_TOKEN:String =email
-    var USER_EMAIL:String =token
+class Constants {
+    var USER_TOKEN:String =""
+    var USER_EMAIL:String =""
     companion object{
         private var instance: Constants? = null
 
@@ -17,5 +17,10 @@ class LoginResponse(val email:String,val token:String){
             }
         }
     }
-
+    fun saveAuthToken(token: String) {
+        USER_TOKEN = token
+    }
+    fun saveAuthEmail(email: String) {
+        USER_EMAIL = email
+    }
 }
