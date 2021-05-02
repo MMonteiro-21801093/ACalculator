@@ -1,4 +1,4 @@
-package cm.mmonteiro.acalculator.views.calculator
+package cm.mmonteiro.acalculator.domain
 
 import android.content.ContentValues.TAG
 import android.util.Log
