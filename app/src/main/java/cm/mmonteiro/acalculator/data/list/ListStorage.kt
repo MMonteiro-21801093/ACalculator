@@ -30,7 +30,8 @@ class ListStorage {
     suspend fun getAll(historyViewModelInterface: HistoryViewModelInterface) {
         withContext(Dispatchers.Main){
             Thread.sleep(5000)
-            historyViewModelInterface.getAllHistory(storage)
+
+            //historyViewModelInterface.getAllHistory(storage)
         }
 
     }

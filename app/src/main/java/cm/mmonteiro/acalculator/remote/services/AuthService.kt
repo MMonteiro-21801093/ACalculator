@@ -16,8 +16,5 @@ interface AuthService {
     suspend fun login(@Body body: Login):Response<LoginResponse>
     @POST("users/register")
     suspend fun register(@Body body: User):Response<UserResponse>
-    @POST("operations")
-    suspend fun operations(@Body body: Operation):String
-    @GET("operations")
-    suspend fun operations():Response<Operation>
+
 }

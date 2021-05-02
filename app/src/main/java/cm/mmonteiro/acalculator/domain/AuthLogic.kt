@@ -3,9 +3,12 @@ package cm.mmonteiro.acalculator.domain
 import android.content.ContentValues.TAG
 import android.util.Log
 import cm.mmonteiro.acalculator.interfaces.LoginInterface
+import cm.mmonteiro.acalculator.models.Operation
 import cm.mmonteiro.acalculator.remote.requests.Login
 import cm.mmonteiro.acalculator.remote.requests.User
+import cm.mmonteiro.acalculator.remote.responses.LoginResponse
 import cm.mmonteiro.acalculator.remote.services.AuthService
+import cm.mmonteiro.acalculator.remote.services.OperationsService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,9 +22,9 @@ class AuthLogic(private val retrofit: Retrofit) {
           val response = service.login(Login(email,password))
             if(response.isSuccessful){
          //      var teste1 = response.raw()
-                val login  = response.body()
-                login?.let { Log.i(TAG, it.email) }
-                login?.let { Log.i(TAG, it.token) }
+                val login  = LoginResponse.getInstance()
+                login.USER_TOKEN = response.body()!!.token
+                login.USER_EMAIL = response.body()!!.email
                 loginInterface.resultLogin( )
 
             }else{
@@ -40,4 +43,6 @@ class AuthLogic(private val retrofit: Retrofit) {
             }
         }
     }
+
+
 }

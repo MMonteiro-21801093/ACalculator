@@ -22,30 +22,27 @@ import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
 import cm.mmonteiro.acalculator.models.Operation
 
 import kotlinx.android.synthetic.main.fragment_calculator.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CalculatorFragment : Fragment(), OnDisplayChanged {
     private val TAG = MainActivity::class.java.simpleName
     private lateinit var viewModel: CalculatorViewModel
-    private lateinit var adapter : HistoryAdapter
+    private lateinit var adapter: HistoryAdapter
     private lateinit var historyListener: HistoryInterface
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-      viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
 
-       val view =inflater.inflate(R.layout.fragment_calculator, container, false)
-     //   viewModel.display.let { view.text_visor.text = it }
+        val view = inflater.inflate(R.layout.fragment_calculator, container, false)
+        //   viewModel.display.let { view.text_visor.text = it }
         ButterKnife.bind(this, view)
-       return view
+        return view
     }
 
-    override  fun onStart() {
+    override fun onStart() {
         viewModel.registerListener(this)
         super.onStart()
 
@@ -57,7 +54,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
             override fun longClickdeleteItem(operation: Operation) {
 
-                    viewModel.longClickdeleteItem(operation.uuid)
+                viewModel.longClickdeleteItem(operation.uuid)
 
 
             }
@@ -68,9 +65,9 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
 
-          list_historic.layoutManager = LinearLayoutManager(activity as Context)
+            list_historic.layoutManager = LinearLayoutManager(activity as Context)
 
-                viewModel.historyGetAll()
+            viewModel.historyGetAll()
 
 
             //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)
@@ -78,6 +75,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
         }
     }
+
     private fun showToastMessage(value: String) {
         Toast.makeText(
             context as Context,
@@ -85,6 +83,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
             Toast.LENGTH_SHORT
         ).show()
     }
+
     private fun formatToastDate(symbol: String) {
         val date = Calendar.getInstance().time
         var dateTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
@@ -107,7 +106,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         val symbol = view.tag.toString()
         viewModel.onclickSimbol(symbol)
         Log.i(TAG, "Click no botão $symbol")
-        formatToastDate(symbol)
+        //formatToastDate(symbol)
     }
 
     @OnClick(R.id.button_equals)
@@ -124,23 +123,23 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         } else {
 
 
-           viewModel.onClickEquals()
+            viewModel.onClickEquals()
 
 
             val configuration: Configuration = resources.configuration
             if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 viewModel.updateAdapter()
-            }else{
+            } else {
                 text_last_calc.text = viewModel.getLastOperation()
             }
 
             Log.i(TAG, "O resultado da expressão é ${text_visor.text}")
-            formatToastDate("=")
+         //   formatToastDate("=")
         }
     }
 
     override fun onDisplayChanged(value: String?) {
-       value.let{text_visor.text = it}
+        value.let { text_visor.text = it }
     }
 
     override fun onToastChanged(value: String) {
@@ -155,12 +154,14 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         viewModel.unregisterListener()
         super.onDestroy()
     }
-    override fun setHistoryList(values:List<Operation>) {
-        adapter =  HistoryAdapter(
+
+    override fun setHistoryList(values: MutableList<Operation>) {
+        adapter = HistoryAdapter(
             context as Context,
             R.layout.item_expression,
             values as MutableList<Operation>,
-            historyListener)
+            historyListener
+        )
         list_historic.adapter = adapter
     }
 /*    fun onclickHistory(view: View) {

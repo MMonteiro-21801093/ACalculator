@@ -15,9 +15,6 @@ import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryInterface
 import cm.mmonteiro.acalculator.models.Operation
 import kotlinx.android.synthetic.main.fragment_calculator.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment(), CalculatorInterface {
     private lateinit var historyListener: HistoryInterface
@@ -80,11 +77,14 @@ class HistoryFragment : Fragment(), CalculatorInterface {
             Toast.LENGTH_SHORT
         ).show()
     }
+    override fun onToastChanged(value: String) {
+        showToastMessage(value)
+    }
    override fun onAdapterChanged( ) {
        adapter.notifyDataSetChanged()
     }
 
-    override fun setHistoryList(values:List<Operation>) {
+    override fun setHistoryList(values: MutableList<Operation>) {
         adapter =  HistoryAdapter(
             context as Context,
             R.layout.item_expression,
