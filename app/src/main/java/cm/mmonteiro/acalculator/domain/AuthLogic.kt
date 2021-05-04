@@ -33,7 +33,7 @@ class AuthLogic(private val retrofit: Retrofit) {
         CoroutineScope(Dispatchers.IO).launch{
             val response = service.register(User(name,email,password))
             if(response.isSuccessful){
-                resgisterInterface.createUserSucess(response.message())
+                resgisterInterface.createUserSucess(response.body()!!.message)
             }else{
                 resgisterInterface.createUserError(response.message())
             }
