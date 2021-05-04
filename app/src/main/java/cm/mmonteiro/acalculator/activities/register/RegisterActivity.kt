@@ -12,10 +12,11 @@ import cm.mmonteiro.acalculator.R
 import cm.mmonteiro.acalculator.activities.MainActivity
 import cm.mmonteiro.acalculator.activities.login.LogInActivity
 import cm.mmonteiro.acalculator.interfaces.LoginResponseInterface
+import cm.mmonteiro.acalculator.interfaces.RegisterResponseInterface
 import cm.mmonteiro.acalculator.views.calculator.CalculatorViewModel
 import kotlinx.android.synthetic.main.activity_register.*
 
-class RegisterActivity : AppCompatActivity(), LoginResponseInterface {
+class RegisterActivity : AppCompatActivity(), RegisterResponseInterface {
     private lateinit var viewModel: RegisterViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +46,26 @@ class RegisterActivity : AppCompatActivity(), LoginResponseInterface {
         finish()
     }
 
-    override fun responseError(msg: String) {
+    override fun createUserError(msg: String) {
         Toast.makeText(
             this,
             msg,
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    override fun createUserSucess(msg: String) {
+        Toast.makeText(
+            this,
+            msg,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+/*    override fun cr(msg: String) {
+        Toast.makeText(
+            this,
+            msg,
+            Toast.LENGTH_SHORT
+        ).show()
+    } */
 }

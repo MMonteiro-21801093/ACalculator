@@ -1,7 +1,9 @@
 package cm.mmonteiro.acalculator.domain
 
 import android.content.ContentValues.TAG
+import android.provider.SyncStateContract
 import android.util.Log
+import cm.mmonteiro.acalculator.helpers.Constants
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation
 import cm.mmonteiro.acalculator.remote.responses.LoginResponse
@@ -38,8 +40,8 @@ class CalculatorLogic(private val retrofit: Retrofit) {
         val operation = Operation(expression, result.evaluate())
         val service = retrofit.create(OperationsService::class.java)
         CoroutineScope(Dispatchers.IO).launch {
-            val loginResponse = LoginResponse.getInstance()
-            val response = service.operation(loginResponse.USER_TOKEN, operation)
+            val constants = Constants.getInstance()
+            val response = service.operation(constants.USER_TOKEN, operation)
             historyViewModelInterface.returnMessage(response.body()!!.message)
         }
         /*    CoroutineScope(Dispatchers.IO).launch{
@@ -57,11 +59,11 @@ class CalculatorLogic(private val retrofit: Retrofit) {
        }*/
     fun historyGetAll(historyViewModelInterface: HistoryViewModelInterface) {
         val service = retrofit.create(OperationsService::class.java)
-        val loginResponse = LoginResponse.getInstance()
-        Log.i(TAG, loginResponse.USER_TOKEN)
+        val constants = Constants.getInstance()
+        Log.i(TAG, constants.USER_TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
 
-            val response = service.getAll(loginResponse.USER_TOKEN)
+            val response = service.getAll(constants.USER_TOKEN)
 
             historyViewModelInterface.getAllHistory(response)
             /*           if(response.){
@@ -83,11 +85,11 @@ class CalculatorLogic(private val retrofit: Retrofit) {
 
     fun deleteAll(historyViewModelInterface: HistoryViewModelInterface) {
         val service = retrofit.create(OperationsService::class.java)
-        val loginResponse = LoginResponse.getInstance()
-        Log.i(TAG, loginResponse.USER_TOKEN)
+        val constants = Constants.getInstance()
+        Log.i(TAG, constants.USER_TOKEN)
         CoroutineScope(Dispatchers.IO).launch {
 
-            val response = service.delete(loginResponse.USER_TOKEN)
+            val response = service.delete(constants.USER_TOKEN)
             historyViewModelInterface.returnMessage(response.body()?.message!!)
             historyGetAll(historyViewModelInterface)
     /*        if (response.isSuccessful) {

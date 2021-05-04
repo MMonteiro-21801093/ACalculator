@@ -2,7 +2,9 @@ package cm.mmonteiro.acalculator.views.calculator
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import cm.mmonteiro.acalculator.activities.login.ENDPOINT
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
+import cm.mmonteiro.acalculator.domain.CalculatorLogic
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
 import cm.mmonteiro.acalculator.models.Operation
@@ -17,8 +19,8 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
 
     //  private val calculatorLogic = CalculatorLogic(storage)
-    private val calculatorLogic =
-        CalculatorLogic(RetrofitBuilder.getInstance(cm.mmonteiro.acalculator.activities.login.ENDPOINT))
+    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(ENDPOINT))
+
     var display: String = ""
     private var lastOperaton: String = ""
     private var listener: OnDisplayChanged? = null
@@ -81,9 +83,10 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun longClickdeleteItem(id: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            calculatorLogic.delete(id, historyViewModelInterface)
-        }
+        calculatorLogic.deleteAll( historyViewModelInterface)
+     /*   CoroutineScope(Dispatchers.IO).launch {
+           // calculatorLogic.delete(id, historyViewModelInterface)
+        }*/
 
 
     }
