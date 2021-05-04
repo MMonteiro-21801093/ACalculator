@@ -2,9 +2,10 @@ package cm.mmonteiro.acalculator.views.calculator
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import cm.mmonteiro.acalculator.activities.login.ENDPOINT
+
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.domain.CalculatorLogic
+import cm.mmonteiro.acalculator.helpers.Constants
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.interfaces.OnDisplayChanged
 import cm.mmonteiro.acalculator.models.Operation
@@ -17,9 +18,9 @@ import kotlinx.coroutines.withContext
 class CalculatorViewModel(application: Application) : AndroidViewModel(application) {
 
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
-
+    val constants = Constants.getInstance()
     //  private val calculatorLogic = CalculatorLogic(storage)
-    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(ENDPOINT))
+    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(constants.ENDPOINT))
 
     var display: String = ""
     private var lastOperaton: String = ""

@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
 import retrofit2.Retrofit
 
-const val ENDPOINT = "https://cm-calculadora.herokuapp.com/api/"
-
 class CalculatorLogic(private val retrofit: Retrofit) {
 
     // private val storage = ListStorage.getInstance()

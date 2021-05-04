@@ -2,9 +2,10 @@ package cm.mmonteiro.acalculator.views.history
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import cm.mmonteiro.acalculator.activities.login.ENDPOINT
+
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.domain.CalculatorLogic
+import cm.mmonteiro.acalculator.helpers.Constants
 import cm.mmonteiro.acalculator.interfaces.CalculatorInterface
 import cm.mmonteiro.acalculator.interfaces.HistoryViewModelInterface
 import cm.mmonteiro.acalculator.models.Operation
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class HistoryViewModel(application: Application) : AndroidViewModel(application)  {
      //private val storage = ListStorage.getInstance()
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
-    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(ENDPOINT))
+    val constants = Constants.getInstance()
+    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(constants.ENDPOINT))
      private var listener: CalculatorInterface? = null
     private lateinit var historyViewModelInterface: HistoryViewModelInterface
 

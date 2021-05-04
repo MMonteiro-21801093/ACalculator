@@ -5,6 +5,7 @@ import cm.mmonteiro.acalculator.data.list.ListStorage
 class Constants {
     var USER_TOKEN:String =""
     var USER_EMAIL:String =""
+    val ENDPOINT ="https://cm-calculadora.herokuapp.com/api/"
     companion object{
         private var instance: Constants? = null
 
@@ -17,10 +18,5 @@ class Constants {
             }
         }
     }
-    fun saveAuthToken(token: String) {
-        USER_TOKEN = token
-    }
-    fun saveAuthEmail(email: String) {
-        USER_EMAIL = email
-    }
+
 }
