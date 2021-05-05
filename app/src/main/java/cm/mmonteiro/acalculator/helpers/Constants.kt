@@ -6,6 +6,7 @@ class Constants {
     var USER_TOKEN:String =""
     var USER_EMAIL:String =""
     val ENDPOINT ="https://cm-calculadora.herokuapp.com/api/"
+    var INTERNET_CONNECTIVITY = true
     companion object{
         private var instance: Constants? = null
 

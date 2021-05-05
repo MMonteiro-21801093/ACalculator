@@ -8,6 +8,9 @@ import cm.mmonteiro.acalculator.interfaces.LoginInterface
 import cm.mmonteiro.acalculator.interfaces.LoginResponseInterface
 import cm.mmonteiro.acalculator.remote.RetrofitBuilder
 import cm.mmonteiro.acalculator.remote.responses.LoginResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class LoginViewModel: ViewModel() {
@@ -29,7 +32,10 @@ class LoginViewModel: ViewModel() {
               }
 
             override fun errorMsg(message: String) {
-                listener.responseError(message)
+                CoroutineScope(Dispatchers.Main).launch {
+                    listener.responseError(message)
+                }
+
             }
 
 

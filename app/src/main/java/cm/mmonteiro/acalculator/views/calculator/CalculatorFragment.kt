@@ -54,7 +54,7 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
 
             override fun longClickdeleteItem(operation: Operation) {
 
-                viewModel.longClickdeleteItem(operation.uuid)
+                viewModel.longClickdeleteItem(activity as Context)
 
 
             }
@@ -64,10 +64,9 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         val configuration: Configuration = resources.configuration
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
-
             list_historic.layoutManager = LinearLayoutManager(activity as Context)
 
-            viewModel.historyGetAll()
+            viewModel.historyGetAll(context as Context)
 
 
             //     list_historic.adapter =   viewModel.historyAdapter(activity as Context)
@@ -123,12 +122,12 @@ class CalculatorFragment : Fragment(), OnDisplayChanged {
         } else {
 
 
-            viewModel.onClickEquals()
+            viewModel.onClickEquals(context as Context)
 
 
             val configuration: Configuration = resources.configuration
             if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                viewModel.updateAdapter()
+                viewModel.updateAdapter(context as Context)
             } else {
                 text_last_calc.text = viewModel.getLastOperation()
             }

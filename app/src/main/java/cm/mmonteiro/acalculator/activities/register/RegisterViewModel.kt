@@ -7,6 +7,9 @@ import cm.mmonteiro.acalculator.interfaces.LoginResponseInterface
 import cm.mmonteiro.acalculator.interfaces.RegisterInterface
 import cm.mmonteiro.acalculator.interfaces.RegisterResponseInterface
 import cm.mmonteiro.acalculator.remote.RetrofitBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RegisterViewModel:ViewModel() {
@@ -22,10 +25,16 @@ class RegisterViewModel:ViewModel() {
         registerInterface = object : RegisterInterface {
 
             override fun createUserError(message: String) {
-                listener.createUserError(message)
+                CoroutineScope(Dispatchers.Main).launch {
+                    listener.createUserError(message)
+                }
+
             }
             override fun createUserSucess(message: String) {
-                listener.createUserSucess(message)
+                CoroutineScope(Dispatchers.Main).launch {
+                    listener.createUserSucess(message)
+                }
+
                 Thread.sleep(2000)
                 listener.responseOk()
             }

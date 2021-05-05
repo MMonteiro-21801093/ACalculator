@@ -21,13 +21,14 @@ class AuthLogic(private val retrofit: Retrofit) {
                 val constants  = Constants.getInstance()
                 constants.USER_TOKEN = response.body()!!.token
                 constants.USER_EMAIL = response.body()!!.email
-                loginInterface.resultLogin( )
+                loginInterface.resultLogin()
 
             }else{
                 loginInterface.errorMsg(response.message())
             }
         }
     }
+
     fun createUser(name: String, email: String, password: String, resgisterInterface: RegisterInterface){
         val service = retrofit.create(AuthService::class.java)
         CoroutineScope(Dispatchers.IO).launch{

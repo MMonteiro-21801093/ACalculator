@@ -1,7 +1,10 @@
 package cm.mmonteiro.acalculator.views.calculator
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import cm.mmonteiro.acalculator.data.repositories.OperationRepository
+import cm.mmonteiro.acalculator.data.repositories.RemoteCalculator
 
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.domain.CalculatorLogic
@@ -13,15 +16,16 @@ import cm.mmonteiro.acalculator.remote.RetrofitBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CalculatorViewModel(application: Application) : AndroidViewModel(application) {
 
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
     val constants = Constants.getInstance()
     //  private val calculatorLogic = CalculatorLogic(storage)
-    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(constants.ENDPOINT))
-
+    val remoteCalculator = RemoteCalculator(storage,RetrofitBuilder.getInstance(constants.ENDPOINT))
+    private val operationRepository = OperationRepository(remoteCalculator)
+   // private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(constants.ENDPOINT))
+    private val calculatorLogic = CalculatorLogic(operationRepository)
     var display: String = ""
     private var lastOperaton: String = ""
     private var listener: OnDisplayChanged? = null
@@ -35,9 +39,9 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
         notifyOnDisplayChanged()
     }
 
-    fun onClickEquals() {
+    fun onClickEquals(context: Context) {
         lastOperaton = display
-        val result = calculatorLogic.performOperation(display,historyViewModelInterface)
+        val result = calculatorLogic.performOperation(display,historyViewModelInterface,context)
         display = result.toString()
         notifyOnDisplayChanged()
     }
@@ -74,17 +78,17 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
         listener?.onDisplayChanged(display)
     }
 
-    fun updateAdapter() {
+    fun updateAdapter(context: Context) {
         Thread.sleep(3000)
-          historyGetAll()
+          historyGetAll(context as Context)
     }
 
     fun onItemClick(result: String) {
         listener?.onToastChanged(result)
     }
 
-    fun longClickdeleteItem(id: String) {
-        calculatorLogic.deleteAll( historyViewModelInterface)
+    fun longClickdeleteItem(context: Context) {
+        calculatorLogic.deleteAll( historyViewModelInterface,context)
      /*   CoroutineScope(Dispatchers.IO).launch {
            // calculatorLogic.delete(id, historyViewModelInterface)
         }*/
@@ -92,8 +96,8 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
 
     }
 
-    fun historyGetAll() {
-        calculatorLogic.historyGetAll(historyViewModelInterface)
+    fun historyGetAll(context: Context) {
+        calculatorLogic.historyGetAll(historyViewModelInterface,context)
         /*CoroutineScope(Dispatchers.IO).launch{
             calculatorLogic.historyGetAll(historyViewModelInterface)
         }*/

@@ -19,4 +19,7 @@ interface OperationDao {
 
     @Query("DELETE FROM operation WHERE uuid = :uuid")
     suspend fun delete(uuid:String)
+
+    @Query("DELETE FROM operation")
+    suspend fun deleteAll()
 }

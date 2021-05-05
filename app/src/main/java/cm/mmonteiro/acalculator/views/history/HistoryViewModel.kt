@@ -1,7 +1,10 @@
 package cm.mmonteiro.acalculator.views.history
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import cm.mmonteiro.acalculator.data.repositories.OperationRepository
+import cm.mmonteiro.acalculator.data.repositories.RemoteCalculator
 
 import cm.mmonteiro.acalculator.data.room.CalculatorDatabase
 import cm.mmonteiro.acalculator.domain.CalculatorLogic
@@ -20,7 +23,8 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
      //private val storage = ListStorage.getInstance()
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
     val constants = Constants.getInstance()
-    private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(constants.ENDPOINT))
+    val remoteCalculator = RemoteCalculator(storage,RetrofitBuilder.getInstance(constants.ENDPOINT))
+    private val operationRepository = OperationRepository(remoteCalculator)
      private var listener: CalculatorInterface? = null
     private lateinit var historyViewModelInterface: HistoryViewModelInterface
 
@@ -61,15 +65,15 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         listener?.onDisplayChanged(result)
     }
 
-    fun longClickdeleteItem(id: String) {
+    fun longClickdeleteItem(context: Context) {
     /*    CoroutineScope(Dispatchers.IO).launch{
         calculatorLogic.delete(id,historyViewModelInterface)
         }*/
-        calculatorLogic.deleteAll(historyViewModelInterface)
+        operationRepository.deleteAll(historyViewModelInterface,context)
     }
 
-       fun historyGetAll()  {
-       calculatorLogic.historyGetAll(historyViewModelInterface)
+       fun historyGetAll(context: Context)  {
+           operationRepository.getAll(historyViewModelInterface, context)
     }
 
 
