@@ -1,5 +1,6 @@
 package cm.mmonteiro.acalculator.data.repositories
 
+import android.app.Application
 import android.content.ContentValues
 import android.util.Log
 import cm.mmonteiro.acalculator.data.room.dao.OperationDao
@@ -12,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 
-class RemoteCalculator(val storage: OperationDao, val retrofit: Retrofit) {
+class RemoteCalculator(val storage: OperationDao, val retrofit: Retrofit, val application: Application) {
     val constants = Constants.getInstance()
 
     fun performOperationWeb(operation: Operation, historyViewModelInterface: HistoryViewModelInterface) {

@@ -15,33 +15,33 @@ class OperationRepository(val remoteCalculator: RemoteCalculator) {
 
     fun performOperation(
         historyViewModelInterface: HistoryViewModelInterface,
-        operation: Operation,
-        context: Context
+        operation: Operation
     ) {
-        if (isNetworkAvailbale(context)) {
+        if (isNetworkAvailbale()) {
             remoteCalculator.performOperationWeb(operation, historyViewModelInterface)
         } else {
             remoteCalculator.performOperationDB(operation, historyViewModelInterface)
         }
     }
 
-    fun getAll(historyViewModelInterface: HistoryViewModelInterface, context: Context) {
-        if (isNetworkAvailbale(context)) {
+    fun getAll(historyViewModelInterface: HistoryViewModelInterface) {
+        if (isNetworkAvailbale()) {
             remoteCalculator.getAllWeb(historyViewModelInterface)
         } else {
             remoteCalculator.getAllDB(historyViewModelInterface)
         }
     }
 
-    fun isNetworkAvailbale(context: Context): Boolean {
+    fun isNetworkAvailbale(): Boolean {
+
         val conManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            remoteCalculator.application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val internetInfo = conManager.activeNetworkInfo
         return internetInfo != null && internetInfo.isConnected
     }
 
-    fun deleteAll(historyViewModelInterface: HistoryViewModelInterface, context: Context) {
-        if(isNetworkAvailbale(context)){
+    fun deleteAll(historyViewModelInterface: HistoryViewModelInterface) {
+        if(isNetworkAvailbale()){
             remoteCalculator.deleteAllWeb(historyViewModelInterface)
         }else{
             remoteCalculator.deleteAllDB(historyViewModelInterface)

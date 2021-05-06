@@ -35,15 +35,14 @@ class CalculatorLogic(private val operationRepository: OperationRepository) {
     fun performOperation(
         expression: String,
         historyViewModelInterface: HistoryViewModelInterface,
-        context: Context
     ): Double {
         val result = ExpressionBuilder(expression).build()
-        operationRepository.performOperation(historyViewModelInterface,Operation(expression, result.evaluate()),context)
+        operationRepository.performOperation(historyViewModelInterface,Operation(expression, result.evaluate()))
         return result.evaluate()
     }
 
-    fun historyGetAll(historyViewModelInterface: HistoryViewModelInterface, context: Context) {
-        operationRepository.getAll(historyViewModelInterface,context)
+    fun historyGetAll(historyViewModelInterface: HistoryViewModelInterface) {
+        operationRepository.getAll(historyViewModelInterface)
     }
 
     suspend fun delete(id: String, historyViewModelInterface: HistoryViewModelInterface) {
@@ -53,8 +52,8 @@ class CalculatorLogic(private val operationRepository: OperationRepository) {
            }*/
     }
 
-    fun deleteAll(historyViewModelInterface: HistoryViewModelInterface, context: Context) {
-        operationRepository.deleteAll(historyViewModelInterface,context)
+    fun deleteAll(historyViewModelInterface: HistoryViewModelInterface) {
+        operationRepository.deleteAll(historyViewModelInterface)
 
     }
 }

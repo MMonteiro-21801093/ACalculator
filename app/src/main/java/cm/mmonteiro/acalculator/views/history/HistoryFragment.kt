@@ -42,7 +42,7 @@ class HistoryFragment : Fragment(), CalculatorInterface {
                 }
 
                 override fun longClickdeleteItem(operation: Operation) {
-                    viewModel.longClickdeleteItem(context as Context)
+                    viewModel.longClickdeleteItem()
                 }
 
             }
@@ -59,7 +59,7 @@ class HistoryFragment : Fragment(), CalculatorInterface {
        // val operations = activity?.getIntent()?.getParcelableArrayListExtra<Operation>(EXTRA_HISTORY)
 
       list_historic.layoutManager = LinearLayoutManager(context as Context)
-            viewModel.historyGetAll(context as Context)
+            viewModel.historyGetAll()
     }
     private fun showToastMessage(value: String) {
         Toast.makeText(

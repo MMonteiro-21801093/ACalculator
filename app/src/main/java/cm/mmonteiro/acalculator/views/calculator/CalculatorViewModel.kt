@@ -22,7 +22,7 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
     private val storage = CalculatorDatabase.getInstance(application).operationDao()
     val constants = Constants.getInstance()
     //  private val calculatorLogic = CalculatorLogic(storage)
-    val remoteCalculator = RemoteCalculator(storage,RetrofitBuilder.getInstance(constants.ENDPOINT))
+    val remoteCalculator = RemoteCalculator(storage,RetrofitBuilder.getInstance(constants.ENDPOINT),application)
     private val operationRepository = OperationRepository(remoteCalculator)
    // private val calculatorLogic = CalculatorLogic(RetrofitBuilder.getInstance(constants.ENDPOINT))
     private val calculatorLogic = CalculatorLogic(operationRepository)
@@ -39,9 +39,9 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
         notifyOnDisplayChanged()
     }
 
-    fun onClickEquals(context: Context) {
+    fun onClickEquals() {
         lastOperaton = display
-        val result = calculatorLogic.performOperation(display,historyViewModelInterface,context)
+        val result = calculatorLogic.performOperation(display,historyViewModelInterface)
         display = result.toString()
         notifyOnDisplayChanged()
     }
@@ -78,17 +78,17 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
         listener?.onDisplayChanged(display)
     }
 
-    fun updateAdapter(context: Context) {
+    fun updateAdapter() {
         Thread.sleep(3000)
-          historyGetAll(context as Context)
+          historyGetAll()
     }
 
     fun onItemClick(result: String) {
         listener?.onToastChanged(result)
     }
 
-    fun longClickdeleteItem(context: Context) {
-        calculatorLogic.deleteAll( historyViewModelInterface,context)
+    fun longClickdeleteItem() {
+        calculatorLogic.deleteAll( historyViewModelInterface)
      /*   CoroutineScope(Dispatchers.IO).launch {
            // calculatorLogic.delete(id, historyViewModelInterface)
         }*/
@@ -96,8 +96,8 @@ class CalculatorViewModel(application: Application) : AndroidViewModel(applicati
 
     }
 
-    fun historyGetAll(context: Context) {
-        calculatorLogic.historyGetAll(historyViewModelInterface,context)
+    fun historyGetAll() {
+        calculatorLogic.historyGetAll(historyViewModelInterface)
         /*CoroutineScope(Dispatchers.IO).launch{
             calculatorLogic.historyGetAll(historyViewModelInterface)
         }*/
