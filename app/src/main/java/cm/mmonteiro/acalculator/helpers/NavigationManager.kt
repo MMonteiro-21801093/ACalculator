@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import cm.mmonteiro.acalculator.views.calculator.CalculatorFragment
 import cm.mmonteiro.acalculator.views.history.HistoryFragment
 import cm.mmonteiro.acalculator.R
+import cm.mmonteiro.acalculator.views.map.MapsFragment
 
 
 class NavigationManager {
@@ -20,6 +21,10 @@ class NavigationManager {
         }
         fun gotHistoryFragment(fm:FragmentManager){
             placeFragment(fm, HistoryFragment())
+        }
+
+        fun getMapFragment(fm: FragmentManager) {
+            placeFragment(fm, MapsFragment())
         }
 
     }

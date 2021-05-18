@@ -65,6 +65,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 NavigationManager.gotHistoryFragment(supportFragmentManager)
                 formatTitle("history")
             }
+            R.id.nav_map -> {
+                NavigationManager.getMapFragment(supportFragmentManager)
+                formatTitle("map")
+            }
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
@@ -72,7 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun formatTitle(fragment: String) {
 
-        for (i in 0..2) {
+        for (i in 0..3) {
 
             if (fragment == "calculator" && i == 0) {
                 nav_drawer.getMenu().getItem(i).setChecked(true)
@@ -84,7 +88,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 toolbar.title = getResources().getString(R.string.history)
                 continue
             }
-
+            if (fragment == "map" && i == 2) {
+                nav_drawer.getMenu().getItem(i).setChecked(true)
+                toolbar.title = getResources().getString(R.string.map)
+                continue
+            }
             nav_drawer.getMenu().getItem(i).setChecked(false)
         }
 
