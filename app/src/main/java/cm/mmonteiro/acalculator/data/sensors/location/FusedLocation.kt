@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 
+
 class FusedLocation private constructor(val context: Context) : LocationCallback() {
     private val TAG = FusedLocation::class.java.simpleName
 
@@ -30,19 +31,19 @@ class FusedLocation private constructor(val context: Context) : LocationCallback
     }
 
     companion object {
-        private var listerner: OnLocationChangedListener? = null
+        private var listener: OnLocationChangedListener? = null
         private var instance: FusedLocation? = null
 
-        fun registerListener(listener: OnLocationChangedListener) {
-            this.listerner = listerner
+        fun registerListener(onLocationChangedListener: OnLocationChangedListener) {
+            this.listener = onLocationChangedListener
         }
 
         fun unregisterListener() {
-            listerner = null
+            listener = null
         }
 
         fun notifyListeners(locationResult: LocationResult) {
-            listerner?.onLocationChangedListener(locationResult)
+            listener?.onLocationChangedListener(locationResult)
         }
 
         fun start(context: Context) {
@@ -63,11 +64,11 @@ class FusedLocation private constructor(val context: Context) : LocationCallback
 
             return
         }
-        client.requestLocationUpdates(locationRequest,this, Looper.myLooper())
+        client.requestLocationUpdates(locationRequest, this, Looper.myLooper())
     }
 
     override fun onLocationResult(locationResult: LocationResult?) {
-        Log.i(TAG,locationResult?.lastLocation.toString())
+        Log.i(TAG, "Location ->${locationResult?.lastLocation.toString()}")
         locationResult?.let{ notifyListeners(it)}
         super.onLocationResult(locationResult)
     }
